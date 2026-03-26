@@ -11,13 +11,10 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    // Custom primary key
-    protected $primaryKey = 'user_id';
+    protected $primaryKey = 'user_id';   // custom PK
+    public $incrementing = true;
+    protected $keyType = 'int';
 
-    // If your primary key is not auto-incrementing, uncomment:
-    // public $incrementing = true; 
-
-    // Fillable fields for mass assignment
     protected $fillable = [
         'fullName',
         'email',
@@ -25,28 +22,32 @@ class User extends Authenticatable
         'role',
     ];
 
-    // Hidden fields for arrays
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    // Casts
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * Relationship: User has many orders
-     */
+    // Helper functions for roles
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isCustomer(): bool
+    {
+        return $this->role === 'customer';
+    }
+
+    // Relationships (optional)
     public function orders()
     {
         return $this->hasMany(Order::class, 'user_id', 'user_id');
     }
 
-    /**
-     * Relationship: User has many sessions
-     */
     public function sessions()
     {
         return $this->hasMany(Session::class, 'user_id', 'user_id');
