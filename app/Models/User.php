@@ -37,7 +37,7 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
-    public function isCustomer(): bool
+    public function isCustomer(): bool  # TODO: where did you use this
     {
         return $this->role === 'customer';
     }

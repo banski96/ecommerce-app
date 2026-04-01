@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,20 +35,35 @@ Route::middleware(['auth', 'admin'])
     ->name('admin.')
     ->group(function () {
         Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
-        // eg. admin.dashboard
         // Categories CRUD
         Route::get('categories/create', [CategoryController::class, 'create'])->name('categories.create'); 
         Route::post('categories', [CategoryController::class, 'store'])->name('categories.store'); 
         Route::get('categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit'); 
         Route::put('categories/{category}', [CategoryController::class, 'update'])->name('categories.update'); 
-        Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy'); 
+        Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+
+        // Products CRUD
+        Route::get('/products', [ProductController::class, 'index'])->name('products');
+        Route::get('product/create', [ProductController::class, 'create'])->name('product.create'); 
+        Route::post('product', [ProductController::class, 'store'])->name('product.store');
+        Route::delete('product/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
 });
 
 /*
 |--------------------------------------------------------------------------
-| User Profile Routes
+| User Routes (Customer Side)
 |--------------------------------------------------------------------------
 */
+Route::middleware(['auth'])
+    ->prefix('customer')
+    ->name('customer.')
+    ->group(function () {
+
+        Route::get('/home', function () {
+            return view('customer.index');
+        })->name('home');
+
+});
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

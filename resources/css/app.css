@@ -28,3 +28,38 @@
 .sidebar .nav-link:hover {
     color: #e4793f;
 }
+.add-btn.btn{
+    color: #ffffff;
+    background-color:#e4793f;
+}
+.add-btn.btn:hover{
+    background-color:#f18043;
+    color: #ffffff;
+}
+.custom-bg {
+    background-color: #f0f0f0;
+}
+.title-name {
+    color: #e4793f;
+}
+
+    /* Mobile bottom nav */
+.mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-around;
+    padding: 0.5rem 0;
+    z-index: 9999;
+}
+/* Hide mobile nav on md+ screens */
+
+    /* Hide desktop nav on small screens */
+.product-card img {
+    height: 150px;
+    object-fit: cover;
+}

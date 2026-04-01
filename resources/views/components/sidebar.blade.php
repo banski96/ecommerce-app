@@ -9,13 +9,11 @@
             class="nav-link d-flex align-items-center gap-2 {{ request()->routeIs('admin.categories') ? 'active' : '' }}">
             <i class="bi bi-tags"></i> Categories
         </a>
-        <a href="{{ route('admin.categories.create') }}"
-            class="nav-link d-flex align-items-center gap-2 {{ request()->routeIs('admin.categories.create') ? 'active' : '' }}">
+        <a href="{{ route('admin.products') }}"
+            class="nav-link d-flex align-items-center gap-2 {{ request()->routeIs('admin.products') ? 'active' : '' }}">
             <i class="bi bi-cart"></i> Products
         </a>
-    
     </div>
-    
 
     {{-- Main content area --}}
     <div class="flex-grow-1">
