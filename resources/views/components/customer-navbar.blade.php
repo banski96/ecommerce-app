@@ -2,7 +2,9 @@
 <nav class="desktop-nav navbar navbar-expand-md bg-light p-3 d-none d-md-flex">
     <div class="container d-flex align-items-center justify-content-between">
     <!-- Logo -->
-        <a class="navbar-brand" href="#">Logo</a>
+        <a class="navbar-brand" href="#">
+            <img src="{{ url('/assets/logo.png') }}" alt="Logo" style="height: 50px;">
+        </a>
 
         <x-search-bar />
 

@@ -63,3 +63,9 @@
     height: 150px;
     object-fit: cover;
 }
+.banner{
+    background-color:#f18043;
+}
+.mobile-nav a{
+    color: #000000; 
+}

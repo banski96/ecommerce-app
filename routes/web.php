@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Customer\CustomerProductController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,6 +64,7 @@ Route::middleware(['auth'])
         Route::get('/home', function () {
             return view('customer.index');
         })->name('home');
+        Route::get('/home', [CustomerProductController::class, 'index'])->name('home');
 
 });
 Route::middleware('auth')->group(function () {
