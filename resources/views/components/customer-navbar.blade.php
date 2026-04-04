@@ -13,7 +13,7 @@
         <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Products</a></li>
         <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="#">
+            <a class="nav-link d-flex align-items-center gap-2" href="{{ route('cart.view') }}">
             <i class="bi bi-cart"></i>
             </a>
         </li>
