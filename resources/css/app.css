@@ -1,12 +1,71 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+.sidebar {
+    width: 240px;
+    min-height: 100vh;
+    background: #f8f9fa;
+    padding: 1rem;
+    border-right: 1px solid #ddd;
+    flex-shrink: 0;
 }
-@import "bootstrap/dist/css/bootstrap.min.css";
+
+.sidebar .nav-link {
+    color: #333;
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.sidebar .nav-link.active {
+    color: #e4793f;
+}
+
+.sidebar .nav-link i {
+    font-size: 1.1rem;
+}
+.sidebar .nav-link:hover {
+    color: #e4793f;
+}
+.add-btn.btn{
+    color: #ffffff;
+    background-color:#e4793f;
+}
+.add-btn.btn:hover{
+    background-color:#f18043;
+    color: #ffffff;
+}
+.custom-bg {
+    background-color: #f0f0f0;
+}
+.title-name {
+    color: #e4793f;
+}
+
+    /* Mobile bottom nav */
+.mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-around;
+    padding: 0.5rem 0;
+    z-index: 9999;
+}
+/* Hide mobile nav on md+ screens */
+
+    /* Hide desktop nav on small screens */
+.product-card img {
+    height: 150px;
+    object-fit: cover;
+}
+.banner{
+    background-color:#f18043;
+}
+.mobile-nav a{
+    color: #000000; 
+}
