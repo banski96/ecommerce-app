@@ -3,7 +3,7 @@
     <div class="container d-flex align-items-center justify-content-between">
     <!-- Logo -->
         <a class="navbar-brand" href="#">
-            <img src="{{ url('/assets/logo.png') }}" alt="Logo" style="height: 50px;">
+            <img src="{{ url('/assets/logo.png') }}" alt="Logo" style="height: 100px;">
         </a>
 
         <x-search-bar />

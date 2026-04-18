@@ -4,7 +4,7 @@
     <h2 class="mb-4">Your Shopping Cart</h2>
 
     @if($cartItems->count())
-    <form action="" method="POST">
+    <form action="{{ route('checkout.page') }}" method="POST">
         @csrf
         <div class="row">
             <div class="col-lg-8">
@@ -16,10 +16,10 @@
 
                 <!-- Cart Items -->
                 @foreach($cartItems as $item)
-                <div class="list-group mb-3" id="cart-item-{{ $item->id }}">
+                <div class="list-group mb-3" id="cart-item-{{ $item->product->product_id }}">
                     <div class="list-group-item d-flex justify-content-between align-items-center">
                         <div class="form-check d-flex align-items-center gap-2">
-                            <input class="form-check-input item-checkbox" type="checkbox" name="cart_items[]" value="{{ $item->id }}">
+                            <input class="form-check-input item-checkbox" type="checkbox" name="cart_items[]" value="{{ $item->product->product_id }}">
                         </div>
                         <div class="d-flex align-items-center">
                             <img src="{{ asset($item->product->product_image)}}" class="img-thumbnail me-3" style="width:80px" alt="Product Image">
@@ -29,7 +29,7 @@
                             </div>
                         </div>
                         <div class="d-flex align-items-center gap-2">
-                            <input type="number" name="quantities[{{ $item->id }}]" class="form-control form-control-sm" style="width:70px" value="{{ $item->quantity }}" min="1">
+                            <input type="number" name="quantities[{{ $item->product->product_id }}]" class="form-control form-control-sm" style="width:70px" value="{{ $item->quantity }}" min="1">
                         </div>
                     </div>
                 </div>
