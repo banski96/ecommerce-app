@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Customer\CustomerProductController;
 use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\CheckoutController;
+use App\Http\Controllers\Customer\StripeWebhookController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -77,6 +78,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout.page');
     Route::post('/checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
+    Route::get('/checkout/success', function () {
+        return "Payment success (waiting for confirmation)";
+    })->name('checkout.success');
+    Route::get('/checkout/cancel', function () {
+        return "Payment cancelled";
+    })->name('checkout.cancel');
 });
 
 /*

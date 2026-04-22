@@ -18,6 +18,7 @@ class Order extends Model
         'status',
         'mobile_number',
         'shipping_address',
+        'payment_status'
     ];
 
     // relationships

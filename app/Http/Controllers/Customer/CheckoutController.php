@@ -7,9 +7,19 @@ use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Services\StripeService;
+use App\Services\CheckoutService;
 
 class CheckoutController extends Controller
 {
+    protected $stripeService;
+    protected $checkoutService;
+
+    public function __construct(StripeService $stripeService, CheckoutService $checkoutService)
+    {
+        $this->stripeService = $stripeService;
+        $this->checkoutService = $checkoutService;
+    }
 
     public function checkout(Request $request)
     {
@@ -24,7 +34,6 @@ class CheckoutController extends Controller
             ->where('user_id', $user->user_id)
             ->first();
         $items = $cart->items->whereIn('product_id', $cartItemIds);
-
         // calculate total (server-side safe)
         $total = $items->sum(function ($item) {
             return $item->quantity * $item->product->price;
@@ -35,51 +44,54 @@ class CheckoutController extends Controller
 
     public function placeOrder(Request $request)
     {
-        $cartItemIds = $request->cart_items;
+        $cartItemIds = $request->cart_items; # add validations
         $user = auth()->user();
 
         // 1. Get cart with items + products
         $cart = Cart::with('items.product')
             ->where('user_id', $user->user_id)
             ->first();
+        if (!$cart) {
+            return redirect()->back()->with('error', 'Cart not found');
+        }
         $items = $cart->items->whereIn('product_id', $cartItemIds);
 
         if ($items->isEmpty()) {
             return redirect()->back()->with('error', 'No Item found!');
         }
-        $total = 0;
-        // 2. Create Order
-        $order = Order::create([
-            'user_id' => $user->user_id,
-            'reference_number' => 'ORD-' . time(),
-            'total_amount' => $total,
-            'status' => 'pending',
-            'mobile_number' => $request->mobile_number,
-            'order_date' => now(),
-            'shipping_address' => $request->shipping_address,
-        ]);
-
-        // 4. Create Order Items
-        foreach ($cart->items as $item) {
-            $subtotal = $item->quantity * $item->product->price;
-            OrderItem::create([
+        // Create order
+        $order = $this->checkoutService->createOrder($user, $cart, $items, $request);
+        //create session for stripe
+        try{
+            \Log::info('Creating Stripe session', [
                 'order_id' => $order->order_id,
-                'product_id' => $item->product_id,
-                'quantity' => $item->quantity,
-                'unit_price' => $item->product->price,
+                'total' => $order->total_amount,
             ]);
-            $total += $subtotal;
+            $session = $this->stripeService->createCheckoutSession($order);
+            \Log::info(
+                'Stripe session created',
+                [
+                    'order_id' => $order->order_id,
+                    'stripe_session' => $session->id,
+                ]
+            );
+            $order->update([
+                'stripe_session' => $session->id
+            ]);
+            // clear cart
+            $this->checkoutService->clearCart($cart, $cartItemIds);
+            return redirect($session->url);
+            
+        }catch (\Exception $e) {
+            \Log::error(
+                'Stripe session failed',
+                [
+                    'order_id' => $order->order_id,
+                    'error' => $e->getMessage(),
+                ]
+            );
+            return redirect()->back()->with('error', 'Payment failed. Please try again.');
         }
-        
-        $order->update([
-            'total_amount' => $total
-        ]);
-        // 5. remove the selected item in the cart
-        $cart->items()
-        ->whereIn('product_id', $cartItemIds)
-        ->delete();
-        // 6. Redirect
-        return redirect()->route('customer.home')
-            ->with('success', 'Order placed successfully!');
+
     }
 }
