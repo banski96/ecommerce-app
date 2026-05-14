@@ -12,12 +12,12 @@
     <thead>
         <tr>
             <th>ID</th>
+            <th>Product Image</th>
             <th>Name</th>
             <th>Description</th>
             <th>Price</th>
             <th>Stock</th>
             <th>Category ID</th>
-            <th>Product Image</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -25,12 +25,6 @@
         @foreach($products as $product)
         <tr>
             <td>{{ $product->product_id }}</td>
-            <td>{{ $product->product_name }}</td>
-            <td>{{ $product->description }}</td>
-            <td>{{ $product->price }}</td>
-            <td>{{ $product->stock_quantity }}</td>
-            <td>{{ $product->category_id }}</td>
-            
             <td>
                 @if($product->product_image)
                     <img src="{{ asset($product->product_image) }}" alt="{{ $product->product_name }}" class="img-fluid" style="max-width:50px;">
@@ -38,6 +32,11 @@
                     <p>No image available</p>
                 @endif
             </td>
+            <td>{{ $product->product_name }}</td>
+            <td>{{ $product->description }}</td>
+            <td>{{ $product->price }}</td>
+            <td>{{ $product->stock_quantity }}</td>
+            <td>{{ $product->category_id }}</td>
             <td>
                 <a href="{{ route('admin.categories.edit', $product) }}" class="btn btn-warning btn-sm">Edit</a>
                 <form action="{{ route('admin.product.destroy', $product) }}" method="POST" style="display:inline;">

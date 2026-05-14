@@ -6,41 +6,41 @@
 .sidebar {
     width: 240px;
     min-height: 100vh;
-    background: #f8f9fa;
+    background: #111827;
     padding: 1rem;
     border-right: 1px solid #ddd;
     flex-shrink: 0;
 }
 
 .sidebar .nav-link {
-    color: #333;
+    color: #ffffff;
     border-radius: 8px;
     padding: 10px 12px;
 }
 
 .sidebar .nav-link.active {
-    color: #e4793f;
+    color: #D97706;
 }
 
 .sidebar .nav-link i {
     font-size: 1.1rem;
 }
 .sidebar .nav-link:hover {
-    color: #e4793f;
+    color: #D97706;
 }
 .add-btn.btn{
     color: #ffffff;
-    background-color:#e4793f;
+    background-color:#D97706;
 }
 .add-btn.btn:hover{
-    background-color:#f18043;
+    background-color:#D97706;
     color: #ffffff;
 }
 .custom-bg {
     background-color: #f0f0f0;
 }
 .title-name {
-    color: #e4793f;
+    color: rgb(16, 16, 16);
 }
 
     /* Mobile bottom nav */
@@ -64,8 +64,8 @@
     object-fit: cover;
 }
 .banner{
-    background-color:#f18043;
+    background-color:#D97706;
 }
 .mobile-nav a{
-    color: #000000; 
+    color: #000000;
 }

@@ -3,7 +3,7 @@
     <div class="nav flex-column me-3 sidebar">
         <a href="{{ route('admin.categories') }}"
             class="nav-link d-flex align-items-center gap-2 {{ request()->routeIs('admin') ? 'active' : '' }}">
-            <i class="bi bi-house-door"></i> Dashboard
+            <i class="bi bi-grid-1x2"></i> Dashboard
         </a>
         <a href="{{ route('admin.categories') }}"
             class="nav-link d-flex align-items-center gap-2 {{ request()->routeIs('admin.categories') ? 'active' : '' }}">
@@ -11,7 +11,11 @@
         </a>
         <a href="{{ route('admin.products') }}"
             class="nav-link d-flex align-items-center gap-2 {{ request()->routeIs('admin.products') ? 'active' : '' }}">
-            <i class="bi bi-cart"></i> Products
+            <i class="bi bi-box-seam"></i> Products
+        </a>
+        <a href="{{ route('admin.orders') }}"
+            class="nav-link d-flex align-items-center gap-2 {{ request()->routeIs('admin.orders') ? 'active' : '' }}">
+            <i class="bi bi-clipboard-check"></i> Orders
         </a>
     </div>
 
