@@ -24,18 +24,29 @@
                         {{ Auth::user()->name }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('Account Settings') }}</a></li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                                <i class='bi bi-gear fs-4'></i>
+                                {{ __('Accounts') }}
+                            </a>
+                        </li>
                         <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item" href="{{route('customer.order')}}">
+                                <i class="bi bi-clipboard-check fs-4"></i>
+                                {{ __('Orders') }}
+                            </a>
+                        </li>
+                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();">
-                                    {{ __('Log Out') }}
+                                <i class="bi bi-box-arrow-right fs-4"></i>
+                                {{ __('Log Out') }}
                                 </button>
                             </form>
                         </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{route('customer.order')}}">{{ __('Orders') }}</a></li>
 
                     </ul>
                 </li>
