@@ -17,6 +17,16 @@
             class="nav-link d-flex align-items-center gap-2 {{ request()->routeIs('admin.orders') ? 'active' : '' }}">
             <i class="bi bi-clipboard-check"></i> Orders
         </a>
+        @auth
+            <a href="#"
+                class="nav-link d-flex align-items-center gap-2 text-danger"
+                onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+            <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
+        @endauth
     </div>
 
     {{-- Main content area --}}

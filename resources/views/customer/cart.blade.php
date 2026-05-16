@@ -56,6 +56,7 @@
     checkboxes.forEach((cb, i) => {
         if(cb.checked) {
             const price = parseFloat(cb.closest('.list-group-item')
+            //  wrong computation 132,122.00 ->132.00
                 .querySelector('p.text-muted').innerText.replace('Price: $',''));
             const quantity = parseInt(quantities[i].value);
             total += price * quantity;

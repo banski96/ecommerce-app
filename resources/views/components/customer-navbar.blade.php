@@ -2,7 +2,7 @@
 <nav class="desktop-nav navbar navbar-expand-md bg-light p-3 d-none d-md-flex">
     <div class="container d-flex align-items-center justify-content-between">
         <!-- Logo -->
-        <a class="navbar-brand" href="{{ route('dashboard') }}">
+        <a class="navbar-brand" href="{{ route('customer.home') }}">
             <img src="{{ url('/assets/logo.png') }}" alt="Logo" style="height: 100px;">
         </a>
 
@@ -10,8 +10,7 @@
 
         <!-- Nav links / cart -->
         <ul class="navbar-nav d-flex flex-row align-items-center gap-3 mb-0">
-            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Products</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{route('customer.home')}}">Home</a></li>
             <li class="nav-item">
                 <a class="nav-link d-flex align-items-center gap-2" href="{{ route('cart.view') }}">
                     <i class="bi bi-cart"></i>
@@ -25,7 +24,7 @@
                         {{ Auth::user()->name }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('Profile') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('Account Settings') }}</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
@@ -35,6 +34,9 @@
                                 </button>
                             </form>
                         </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{route('customer.order')}}">{{ __('Orders') }}</a></li>
+
                     </ul>
                 </li>
             @else
@@ -58,7 +60,10 @@
     @auth
         <!-- Link to Profile for the "You" tab -->
         <a href="{{ route('profile.edit') }}" class="text-center text-decoration-none text-dark">
-            <i class="bi bi-person fs-4"></i><br><small>Profile</small>
+            <i class="bi bi-gear fs-4"></i><br><small>Account</small>
+        </a>
+        <a href="{{route('customer.order')}}" class="text-center text-decoration-none text-dark">
+            <i class="bi bi-clipboard-check fs-4"></i><br><small>Orders</small>
         </a>
     @else
         <a href="{{ route('login') }}" class="text-center text-decoration-none text-dark">
@@ -73,7 +78,7 @@
     <!-- Simple Logout for Mobile "Menu" or an Offcanvas -->
     @auth
         <a href="#" class="text-center text-decoration-none text-dark"
-           onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
+            onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
             <i class="bi bi-box-arrow-right fs-4"></i><br><small>Logout</small>
         </a>
         <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST" class="d-none">

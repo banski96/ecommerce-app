@@ -7,7 +7,9 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Customer\CustomerProductController;
 use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\CheckoutController;
+use App\Http\Controllers\Customer\CustomerOrderController;
 use App\Http\Controllers\Customer\StripeWebhookController;
+
 
 use Illuminate\Support\Facades\Route;
 
@@ -89,6 +91,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/checkout/cancel', function () {
         return "Payment cancelled";
     })->name('checkout.cancel');
+    // Order
+    Route::get('/order', [CustomerOrderController::class, 'index'])->name('customer.order');
 });
 
 /*
