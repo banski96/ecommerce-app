@@ -2,40 +2,48 @@
 @section('content')
 <div class="container my-5">
     <h2 class="mb-4">Your Orders</h2>
-    <div class="card" style="width: 18rem; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);">
-        <img src="https://path.to.your/reusable_travel_mugs.jpg" class="card-img-top p-3 rounded" alt="">
+        <div class="card mb-4 shadow-sm border-0">
+            <div class="card-header bg-white d-flex justify-content-between">
+                <div>
+                    <span class="text-muted small uppercase">Order Placed</span>
+                    <p class="mb-0 fw-bold">{{ $orders->created_at->format('M d, Y') }}</p>
+                </div>
+                <div>
+                    <span class="badge bg-info">{{ $orders->status }}</span>
+                </div>
+            </div>
+            @foreach($orders->items as $item)
+                <div class="card-body d-flex align-items-center py-3">
+                    <img src="{{ $item->product->product_image }}"
+                        alt="Product Image"
+                        class="rounded border me-3 bg-light"
+                        style="width: 70px; height: 70px; object-fit: cover; flex-shrink: 0;">
 
-        <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-            <h5 class="card-title m-0">Reusable Travel Mugs</h5>
-            <span class="badge bg-success rounded-pill px-2 py-1" style="font-size: 0.7rem;">PAID</span>
-            </div>
+                    <div class="flex-grow-1 min-w-0 me-3">
+                        <h6 class="text-dark fw-bold mb-1 text-truncate">Product Name</h6>
+                        <p class="text-muted small mb-0 text-truncate" style="max-width: 300px;">Description text goes here...</p>
+                    </div>
 
-            <div class="text-muted mb-3" style="font-size: 0.9rem;">
-            <p class="m-0">SKU: HM-TM-4</p>
-            <p class="m-0">Unit Price: $80.00</p>
-            </div>
+                    <div class="d-flex align-items-center gap-4 text-nowrap">
+                        <div class="text-center">
+                            <span class="text-muted small d-block">Unit Price</span>
+                            <span class="text-dark fw-medium">$10.00</span>
+                        </div>
 
-            <div class="input-group input-group-sm mb-3">
-            <button class="btn btn-outline-secondary" type="button">-</button>
-            <input type="text" class="form-control text-center" value="1" readonly>
-            <button class="btn btn-outline-secondary" type="button">+</button>
-            </div>
+                        <div class="text-center px-2">
+                            <span class="text-muted small d-block">Qty</span>
+                            <span class="badge bg-secondary-subtle text-secondary border px-2 py-1 rounded">x2</span>
+                        </div>
 
-            <div class="row text-muted small mb-3">
-            <div class="col-6 border-end">
-                <p><i class="bi bi-credit-card me-1"></i> Credit Card</p>
-                <p><i class="bi bi-calendar-event me-1"></i> Date</p>
-                <p><i class="bi bi-geo-alt me-1"></i> Address</p>
-            </div>
-            <div class="col-6 text-end">
-                <p>Subtotal: $155.00</p>
-                <h6 class="text-dark">Order Total: $165.00</h6>
-            </div>
-            </div>
-
-            <a href="#" class="btn btn-primary w-100">View Item Details →</a>
-        </div>
+                        <div class="text-end" style="min-width: 80px;">
+                            <span class="text-muted small d-block">Total Price</span>
+                            <span class="text-dark fw-bold fs-5">$20.00</span>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
 
 </div>
+
+@endsection

@@ -64,7 +64,7 @@
 
 <!-- Mobile nav (bottom) -->
 <div class="mobile-nav d-flex d-md-none justify-content-around bg-light border-top py-2 fixed-bottom">
-    <a href="#" class="text-center text-decoration-none text-dark">
+    <a href="{{ route('customer.home') }}" class="text-center text-decoration-none text-dark">
         <i class="bi bi-house fs-4"></i><br><small>Home</small>
     </a>
 

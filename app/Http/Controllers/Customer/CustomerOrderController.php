@@ -19,4 +19,12 @@ class CustomerOrderController extends Controller
         ->get();
         return view('customer.profile', compact('orders'));
     }
+
+    public function show($id){
+        $user = auth()->user();
+        $orders = Order::where('order_id', $id)
+        ->where('user_id', $user->user_id)
+        ->with('items.product')->firstOrFail();
+        return view('customer.order-item', compact('orders'));
+    }
 }

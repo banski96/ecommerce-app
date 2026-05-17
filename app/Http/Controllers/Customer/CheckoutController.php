@@ -81,7 +81,7 @@ class CheckoutController extends Controller
             // clear cart
             $this->checkoutService->clearCart($cart, $cartItemIds);
             return redirect($session->url);
-            
+
         }catch (\Exception $e) {
             \Log::error(
                 'Stripe session failed',

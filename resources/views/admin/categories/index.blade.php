@@ -4,7 +4,7 @@
 <h1 class="title-name">Categories</h1>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <a href="{{ route('admin.product.create') }}" class="add-btn btn">
+    <a href="{{ route('admin.categories.create') }}" class="add-btn btn">
         <i class="bi bi-plus"></i> Add Category
     </a>
 </div>

@@ -93,6 +93,7 @@ Route::middleware('auth')->group(function () {
     })->name('checkout.cancel');
     // Order
     Route::get('/order', [CustomerOrderController::class, 'index'])->name('customer.order');
+    Route::get('/order{order}', [CustomerOrderController::class, 'show'])->name('customer.view-order');
 });
 
 /*

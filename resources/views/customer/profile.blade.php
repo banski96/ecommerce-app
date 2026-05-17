@@ -17,14 +17,15 @@
                 <div class="flex-grow-1">
                     @foreach($order->items as $item)
                         <img src="{{ $item->product->product_image }}" class="rounded border me-2" style="width: 60px; height: 60px; object-fit: cover;">
+                    @endforeach
                     <!-- TODO: handle this -->
-                        <!-- @endforeach
-                    @if($order->order_items_count > 3)
+                    <!-- @if($order->order_items_count > 3)
                         <span class="text-muted">+ {{ $order->order_items_count - 3 }} more</span>
                     @endif -->
+
                 </div>
 
-                <a href="" class="btn btn-outline-primary">
+                <a href="{{ route('customer.view-order', $order) }}" class="btn btn-outline-primary">
                     Track / View Order
                 </a>
             </div>

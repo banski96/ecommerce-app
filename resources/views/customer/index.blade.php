@@ -3,10 +3,10 @@
 @section('content')
 
 <!-- ✅ Hero Banner -->
-<div class="text-white p-4 rounded mb-4 text-center" 
-    style="background-image: url('/assets/banner.jpg'); 
-        background-size: cover; 
-        background-position: center; 
+<div class="text-white p-4 rounded mb-4 text-center"
+    style="background-image: url('/assets/banner.jpg');
+        background-size: cover;
+        background-position: center;
         background-repeat: no-repeat;
         height: 300px;">
 </div>
