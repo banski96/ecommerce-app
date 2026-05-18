@@ -12,4 +12,13 @@ class CustomerProductController extends Controller
         $products = Product::all();
         return view('customer.index', compact('products'));
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        // Calls our Postgres fuzzy search scope
+        $products = Product::fuzzySearch($query)->paginate(12);
+        return view('customer.search-results', compact('products', 'query'));
+    }
 }

@@ -75,6 +75,8 @@ Route::middleware(['auth'])
             return view('customer.index');
         })->name('home');
         Route::get('/home', [CustomerProductController::class, 'index'])->name('home');
+        // search
+        Route::get('/search', [CustomerProductController::class, 'search'])->name('search');
 
 });
 Route::middleware('auth')->group(function () {
@@ -94,6 +96,7 @@ Route::middleware('auth')->group(function () {
     // Order
     Route::get('/order', [CustomerOrderController::class, 'index'])->name('customer.order');
     Route::get('/order{order}', [CustomerOrderController::class, 'show'])->name('customer.view-order');
+
 });
 
 /*

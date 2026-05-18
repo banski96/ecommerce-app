@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Product extends Model
 {
@@ -36,5 +37,20 @@ class Product extends Model
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class, 'product_id', 'product_id');
+    }
+
+    /**
+     * Scope a query to fuzzy search products by title and description.
+     */
+    public function scopeFuzzySearch(Builder $query, ?string $searchTerm)
+    {
+        if (blank($searchTerm)) {
+            return $query;
+        }
+
+        // This checks similarity and orders the best matches (closest to the typo) first
+        return $query->whereRaw("product_name % ?", [$searchTerm])
+                    ->orWhereRaw("description % ?", [$searchTerm])
+                    ->orderByRaw("similarity(product_name, ?) DESC", [$searchTerm]);
     }
 }

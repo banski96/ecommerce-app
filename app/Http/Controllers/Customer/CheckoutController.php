@@ -44,6 +44,7 @@ class CheckoutController extends Controller
 
     public function placeOrder(Request $request)
     {
+        #TODO: handle the decrement in stocks and out of stocks
         $cartItemIds = $request->cart_items; # add validations
         $user = auth()->user();
 
