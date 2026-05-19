@@ -1,11 +1,11 @@
 # Ecommerce App
 
-A modern full-stack ecommerce web application built with Laravel and integrated with Stripe for secure online payments.
+Full-stack ecommerce platform built with Laravel and PostgreSQL featuring Stripe Checkout integration, role-based access control, and service-layer architecture.
 
 This project demonstrates a complete ecommerce workflow including:
 
 - Authentication system
-- Product management
+- Product and category management
 - Shopping cart functionality
 - Checkout system
 - Stripe payment integration
@@ -18,15 +18,13 @@ This project demonstrates a complete ecommerce workflow including:
 
 ## Customer Features
 
-- User registration and login
-- Browse products
-- Product details page
-- Add to cart
-- Update/remove cart items
+- User registration and authentication
+- Browse and view products
+- Add to cart and manage cart items
 - Secure checkout process
 - Stripe payment integration
 - View customer orders
-- User profile management
+- Profile management
 
 ---
 
@@ -35,8 +33,37 @@ This project demonstrates a complete ecommerce workflow including:
 - Category management
 - Product management
 - Order management
-- Protected admin routes
-- Role-based access control
+- Protected admin dashboard
+- Role-based authorization
+
+---
+
+# Technical Highlights
+
+- Service-layer architecture for checkout and payment handling
+- Role-based middleware authorization
+- Stripe Checkout Session integration
+- PostgreSQL relational database design
+- MVC architecture using Laravel conventions
+- Centralized business logic using service classes
+- Modular route organization with middleware protection
+- Clean separation between admin and customer workflows
+
+---
+
+# Challenges Solved
+
+## Stripe Checkout Integration
+
+Implemented secure Stripe Checkout Sessions while synchronizing customer orders with payment processing flow.
+
+## Cart State Management
+
+Handled cart persistence for authenticated users while maintaining accurate checkout totals and order creation.
+
+## Access Control & Route Protection
+
+Separated customer and admin functionality using middleware-based authorization and protected route groups.
 
 ---
 
@@ -73,6 +100,42 @@ routes/web.php
 ```
 
 ---
+
+# Screenshots
+
+## Homepage
+
+![Homepage](public/screenshots/homepage.png)
+
+---
+
+## Product Listing
+
+![Products](public/screenshots/products.png)
+
+---
+
+## Shopping Cart
+
+![Cart](public/screenshots/cart.png)
+
+---
+
+## Checkout Page
+
+![Checkout](public/screenshots/checkout.png)
+
+---
+
+## Stripe Payment
+
+![Stripe Payment](public/screenshots/stripe-payment.png)
+
+---
+
+## Admin Dashboard
+
+![Admin Dashboard](public/screenshots/admin-dashboard.png)
 
 # Installation
 
@@ -167,7 +230,6 @@ npm run dev
 
 # Application Routes
 
-
 ## Customer Routes
 
 | Route | Description |
@@ -204,18 +266,14 @@ npm run dev
 
 Planned improvements for future versions:
 
-# Future Improvements
-
-Planned improvements for future versions:
-
 - Advanced inventory and stock management
 - Product image gallery and multiple image support
-- Shipment and delivery status tracking
+- Shipment and delivery tracking
 - Enhanced email notification system
 - Stripe webhook hardening and event verification
 - Discount and coupon management improvements
 - Wishlist enhancements
-- Product rating and review moderation
+- Product review moderation system
 - REST API support
 - Automated unit and feature testing
 - Admin analytics dashboard
@@ -233,27 +291,9 @@ Recommended improvements before production deployment:
 - Stripe webhook signature verification
 - Database transactions during checkout
 - Improved validation handling
-- Activity logging
-- Rate limiting
-- Enhanced admin authorization
-
----
-
-# Screenshots
-
-Add project screenshots here:
-
-```bash
-/public/screenshots/
-```
-
-Suggested screenshots:
-- Homepage
-- Product listing
-- Cart page
-- Checkout page
-- Stripe payment page
-- Admin dashboard
+- Activity logging and monitoring
+- Rate limiting protection
+- Enhanced admin authorization rules
 
 ---
 
