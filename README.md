@@ -105,37 +105,37 @@ routes/web.php
 
 ## Homepage
 
-![Homepage](public/screenshots/homepage.png)
+![Homepage](public/screenshots/Homepage.PNG)
 
 ---
 
 ## Product Listing
 
-![Products](public/screenshots/products.png)
+![Products](public/screenshots/Products.PNG)
 
 ---
 
 ## Shopping Cart
 
-![Cart](public/screenshots/cart.png)
+![Cart](public/screenshots/Cart.PNG)
 
 ---
 
 ## Checkout Page
 
-![Checkout](public/screenshots/checkout.png)
+![Checkout](public/screenshots/Checkout.PNG)
 
 ---
 
 ## Stripe Payment
 
-![Stripe Payment](public/screenshots/stripe-payment.png)
+![Stripe Payment](public/screenshots/Stripe Payment.PNG)
 
 ---
 
 ## Admin Dashboard
 
-![Admin Dashboard](public/screenshots/admin-dashboard.png)
+![Admin Dashboard](public/screenshots/Admin Dashboard.PNG)
 
 # Installation
 
