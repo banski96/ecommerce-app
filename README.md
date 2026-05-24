@@ -129,13 +129,13 @@ routes/web.php
 
 ## Stripe Payment
 
-![Stripe Payment](public/screenshots/Stripe Payment.PNG)
+![StripePayment](public/screenshots/Stripe Payment.PNG)
 
 ---
 
 ## Admin Dashboard
 
-![Admin Dashboard](public/screenshots/Admin Dashboard.PNG)
+![AdminDashboard](public/screenshots/Admin Dashboard.PNG)
 
 # Installation
 
