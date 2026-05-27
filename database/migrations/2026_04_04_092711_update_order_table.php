@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -21,11 +21,11 @@ return new class extends Migration
         });
 
         // Change status column to enum via raw SQL (PostgreSQL safe)
-        DB::statement("
+        DB::statement('
             ALTER TABLE orders
             ALTER COLUMN status DROP DEFAULT,
             ALTER COLUMN status TYPE varchar(255) USING status::varchar;
-        ");
+        ');
 
         // Add check constraint for enum values
         DB::statement("
@@ -66,7 +66,7 @@ return new class extends Migration
         });
 
         // Drop check constraint
-        DB::statement("ALTER TABLE orders DROP CONSTRAINT IF EXISTS orders_status_check");
+        DB::statement('ALTER TABLE orders DROP CONSTRAINT IF EXISTS orders_status_check');
 
         // Revert status column back to string without enum
         DB::statement("

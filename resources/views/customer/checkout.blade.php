@@ -4,7 +4,7 @@
 <div class="container my-5">
     <h2 class="mb-4 fw-bold text-dark">Checkout</h2>
 
-    <form action="{{ route('checkout.placeOrder') }}" method="POST">
+    <form action="{{ route('checkout.place-order') }}" method="POST">
         @csrf
 
         @foreach($cartItemIds as $id)

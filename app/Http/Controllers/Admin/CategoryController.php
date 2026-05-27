@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Models\Category;
+
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -13,6 +14,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
+
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -34,6 +36,7 @@ class CategoryController extends Controller
             'description' => 'nullable|string',
         ]);
         Category::create($request->all());
+
         return redirect()->route('admin.categories')->with('success', 'Category successfully.');
     }
 
@@ -51,10 +54,9 @@ class CategoryController extends Controller
     public function edit(string $id)
     {
         $category = Category::find($id);
-        if (!$category){
+        if (! $category) {
             return redirect()->route('admin.categories')->with('error', 'Category not found.');
-        }
-        else{
+        } else {
             return view('admin.categories.edit', compact('category'));
         }
     }
@@ -70,6 +72,7 @@ class CategoryController extends Controller
             'description' => 'nullable|string',
         ]);
         $Category->update($request->all());
+
         return redirect()->route('admin.categories')->with('success', 'Category updated successfully.');
     }
 
@@ -80,6 +83,7 @@ class CategoryController extends Controller
     {
         $Category = Category::find($id);
         $Category->delete();
+
         return redirect()->route('admin.categories')->with('success', 'Category deleted successfully.');
     }
 }

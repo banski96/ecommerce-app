@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,7 +11,9 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $primaryKey = 'user_id';   // custom PK
+
     public $incrementing = true;
+
     protected $keyType = 'int';
 
     protected $fillable = [
@@ -37,7 +38,7 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
-    public function isCustomer(): bool  # TODO: where did you use this
+    public function isCustomer(): bool  // TODO: where did you use this
     {
         return $this->role === 'customer';
     }
@@ -52,6 +53,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Session::class, 'user_id', 'user_id');
     }
-
-    
 }
