@@ -67,10 +67,6 @@ Route::middleware(['auth'])
     ->prefix('customer')
     ->name('customer.')
     ->group(function () {
-
-        Route::get('/home', function () {
-            return view('customer.index');
-        })->name('home');
         Route::get('/home', [CustomerProductController::class, 'index'])->name('home');
         // search
         Route::get('/search', [CustomerProductController::class, 'search'])->name('search');
@@ -83,7 +79,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout.page');
-    Route::post('/checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
+    Route::post('/checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.place-order');
     Route::get('/checkout/success', function () {
         return 'Payment success (waiting for confirmation)';
     })->name('checkout.success');
@@ -92,7 +88,7 @@ Route::middleware('auth')->group(function () {
     })->name('checkout.cancel');
     // Order
     Route::get('/order', [CustomerOrderController::class, 'index'])->name('customer.order');
-    Route::get('/order{order}', [CustomerOrderController::class, 'show'])->name('customer.view-order');
+    Route::get('/order/{order}', [CustomerOrderController::class, 'show'])->name('customer.view-order');
 
 });
 

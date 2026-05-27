@@ -23,10 +23,10 @@ class CustomerOrderController extends Controller
     public function show($id)
     {
         $user = auth()->user();
-        $orders = Order::where('order_id', $id)
+        $order = Order::where('order_id', $id)
             ->where('user_id', $user->user_id)
             ->with('items.product')->firstOrFail();
 
-        return view('customer.order-item', compact('orders'));
+        return view('customer.order-item', compact('order'));
     }
 }
