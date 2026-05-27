@@ -1,30 +1,32 @@
 <?php
 
 namespace App\Http\Controllers\Customer;
-use App\Models\Order;
+
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
-
+use App\Models\Order;
 
 class CustomerOrderController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $user = auth()->user();
         $orders = Order::where('user_id', $user->user_id)
-        ->with(['items'=> function($query) {
-                   $query->limit(3); // Just get a few items for the preview
-        }, 'items.product'])
-        ->latest()
-        ->get();
+            ->with(['items' => function ($query) {
+                $query->limit(3); // Just get a few items for the preview
+            }, 'items.product'])
+            ->latest()
+            ->get();
+
         return view('customer.profile', compact('orders'));
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $user = auth()->user();
         $orders = Order::where('order_id', $id)
-        ->where('user_id', $user->user_id)
-        ->with('items.product')->firstOrFail();
+            ->where('user_id', $user->user_id)
+            ->with('items.product')->firstOrFail();
+
         return view('customer.order-item', compact('orders'));
     }
 }

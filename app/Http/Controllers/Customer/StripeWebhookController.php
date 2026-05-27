@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Customer;
-use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use Illuminate\Http\Request;
+use Stripe\Webhook;
 
 class StripeWebhookController extends Controller
 {
@@ -15,7 +17,7 @@ class StripeWebhookController extends Controller
         $secret = config('services.stripe.webhook_secret');
 
         try {
-            $event = \Stripe\Webhook::constructEvent(
+            $event = Webhook::constructEvent(
                 $payload,
                 $sigHeader,
                 $secret
@@ -45,5 +47,4 @@ class StripeWebhookController extends Controller
 
         return response('Webhook handled', 200);
     }
-
 }

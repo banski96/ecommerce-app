@@ -1,16 +1,13 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
-use App\Http\Controllers\Customer\CustomerProductController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\CheckoutController;
 use App\Http\Controllers\Customer\CustomerOrderController;
-use App\Http\Controllers\Customer\StripeWebhookController;
-
-
+use App\Http\Controllers\Customer\CustomerProductController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,7 +56,7 @@ Route::middleware(['auth', 'admin'])
         // Orders
         Route::get('/orders', [OrderController::class, 'index'])->name('orders');
         Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.view');
-});
+    });
 
 /*
 |--------------------------------------------------------------------------
@@ -78,7 +75,7 @@ Route::middleware(['auth'])
         // search
         Route::get('/search', [CustomerProductController::class, 'search'])->name('search');
 
-});
+    });
 Route::middleware('auth')->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.view');
     Route::post('/cart/add/{productId}', [CartController::class, 'addToCart'])->name('cart.add');
@@ -88,10 +85,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout.page');
     Route::post('/checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
     Route::get('/checkout/success', function () {
-        return "Payment success (waiting for confirmation)";
+        return 'Payment success (waiting for confirmation)';
     })->name('checkout.success');
     Route::get('/checkout/cancel', function () {
-        return "Payment cancelled";
+        return 'Payment cancelled';
     })->name('checkout.cancel');
     // Order
     Route::get('/order', [CustomerOrderController::class, 'index'])->name('customer.order');

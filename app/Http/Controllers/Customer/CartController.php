@@ -1,25 +1,27 @@
 <?php
 
 namespace App\Http\Controllers\Customer;
-use App\Models\Product;
+
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
     public function index()
     {
-        $user = Auth::user(); // get the logged-in user  
-        if (!$user) { # TODO: this is redundant below fix later
+        $user = Auth::user(); // get the logged-in user
+        if (! $user) { // TODO: this is redundant below fix later
             return redirect()->route('login')->with('error', 'You must be logged in to add items.');
         }
         $cart = Cart::firstOrCreate(
             ['user_id' => $user->user_id]
         );
         $cartItems = $cart->items()->with('product')->get();
+
         return view('customer.cart', compact('cartItems'));
     }
 
@@ -27,7 +29,7 @@ class CartController extends Controller
     {
         $user = Auth::user(); // get the logged-in user
 
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('login')->with('error', 'You must be logged in to add items.');
         }
 
@@ -38,8 +40,8 @@ class CartController extends Controller
 
         // Check if the product already exists in the cart
         $cartItem = CartItem::where('cart_id', $cart->cart_id)
-                            ->where('product_id', $productId)
-                            ->first();
+            ->where('product_id', $productId)
+            ->first();
 
         if ($cartItem) {
             // Increment quantity

@@ -1,18 +1,18 @@
 <?php
 
 namespace App\Http\Controllers\Customer;
+
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Cart;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
-use App\Models\OrderItem;
-use App\Services\StripeService;
 use App\Services\CheckoutService;
+use App\Services\StripeService;
+use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
     protected $stripeService;
+
     protected $checkoutService;
 
     public function __construct(StripeService $stripeService, CheckoutService $checkoutService)
@@ -26,7 +26,7 @@ class CheckoutController extends Controller
         $user = auth()->user();
 
         $cartItemIds = $request->cart_items;
-        if (!$cartItemIds) {
+        if (! $cartItemIds) {
             return redirect()->back()->with('error', 'No items selected');
         }
 
@@ -44,15 +44,15 @@ class CheckoutController extends Controller
 
     public function placeOrder(Request $request)
     {
-        #TODO: handle the decrement in stocks and out of stocks
-        $cartItemIds = $request->cart_items; # add validations
+        // TODO: handle the decrement in stocks and out of stocks
+        $cartItemIds = $request->cart_items; // add validations
         $user = auth()->user();
 
         // 1. Get cart with items + products
         $cart = Cart::with('items.product')
             ->where('user_id', $user->user_id)
             ->first();
-        if (!$cart) {
+        if (! $cart) {
             return redirect()->back()->with('error', 'Cart not found');
         }
         $items = $cart->items->whereIn('product_id', $cartItemIds);
@@ -62,8 +62,8 @@ class CheckoutController extends Controller
         }
         // Create order
         $order = $this->checkoutService->createOrder($user, $cart, $items, $request);
-        //create session for stripe
-        try{
+        // create session for stripe
+        try {
             \Log::info('Creating Stripe session', [
                 'order_id' => $order->order_id,
                 'total' => $order->total_amount,
@@ -77,13 +77,14 @@ class CheckoutController extends Controller
                 ]
             );
             $order->update([
-                'stripe_session' => $session->id
+                'stripe_session' => $session->id,
             ]);
             // clear cart
             $this->checkoutService->clearCart($cart, $cartItemIds);
+
             return redirect($session->url);
 
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             \Log::error(
                 'Stripe session failed',
                 [
@@ -91,6 +92,7 @@ class CheckoutController extends Controller
                     'error' => $e->getMessage(),
                 ]
             );
+
             return redirect()->back()->with('error', 'Payment failed. Please try again.');
         }
 
