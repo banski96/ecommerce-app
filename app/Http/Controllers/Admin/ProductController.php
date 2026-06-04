@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage; // Switched file handling to use Laravel's standard Storage
+use App\Http\Requests\StoreProductRequest;
 
 class ProductController extends Controller
 {
@@ -23,42 +25,35 @@ class ProductController extends Controller
         return view('admin.products.create-product', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $path = null;
-        $request->validate([
-            'product_name' => 'required|string|max:255',
-            'description' => 'required|string|max:1000', // allow longer description
-            'price' => 'required|numeric|min:0',
-            'stock_quantity' => 'required|integer|min:0',
-            'category_id' => 'required|exists:categories,category_id',
-            'product_image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // max 2MB
-        ]);
-        if ($request->hasFile('product_image')) {
-            $file = $request->file('product_image'); // get uploaded file
-            $filename = time().'_'.$file->getClientOriginalName(); // create unique name
-            $file->move(public_path('uploads/products'), $filename); // save to public/uploads/products
-            $path = 'uploads/products/'.$filename; // store path string in DB
-            // TODO: directory of uploads/products
-        }
-        $product = Product::create([
-            'product_name' => $request->product_name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'stock_quantity' => $request->stock_quantity,
-            'category_id' => $request->category_id,
-            'product_image' => $path,
-        ]);
 
-        return redirect()->route('admin.products')->with('success', 'Product successfully.');
+        $validatedData = $request->validated();
+
+        if ($request->hasFile('product_image')) {
+            $path = $request->file('product_image')->store('products', 'public');
+            $validatedData['product_image'] = 'storage/' . $path;
+        }
+        $product = Product::create($validatedData);
+
+        return redirect()
+        ->route('admin.products')
+        ->with('success', 'Product created successfully.');
     }
 
     public function destroy(string $id)
     {
-        // TODO: add the deletion of image in the public folder
-        $product = Product::find($id);
+
+        $product = Product::findOrFail($id);
+        if ($product->product_image) {
+            // Converts 'storage/products/file.jpg' back to 'products/file.jpg' for the disk lookup
+            $relativeStoragePath = str_replace('storage/', '', $product->product_image);
+            Storage::disk('public')->delete($relativeStoragePath);
+        }
         $product->delete();
 
-        return redirect()->route('admin.products')->with('success', 'Product deleted successfully.');
+        return redirect()
+        ->route('admin.products')
+        ->with('success', 'Product deleted successfully.');
     }
 }
