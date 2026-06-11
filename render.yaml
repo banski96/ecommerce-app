@@ -1,18 +1,5 @@
 services:
   - type: web
     name: laravel-ecommerce
-    runtime: php # Changed from 'env: php'
-    buildCommand: |
-      # 1. Front-end asset compilation
-      npm install
-      npm run build
-
-      # 2. Back-end setup
-      composer install --no-side-effects --no-plugins --no-progress --no-dev --prefer-dist
-      php artisan config:cache
-      php artisan route:cache
-      php artisan view:cache
-    startCommand: heroku-php-apache2 public/
-    envVars:
-      - key: PHP_VERSION
-        value: "8.2" # Enclosed in quotes to prevent YAML parsing errors
+    runtime: docker
+    plan: free
