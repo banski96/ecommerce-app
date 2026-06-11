@@ -22,7 +22,7 @@ RUN a2enmod rewrite
 # ---------------------------------------
 # Set Laravel public folder as web root
 # ---------------------------------------
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
     && sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
@@ -55,8 +55,18 @@ RUN npm install && npm run build
 RUN chown -R www-data:www-data storage bootstrap/cache
 
 # ---------------------------------------
+# Copy startup script
+# ---------------------------------------
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# ---------------------------------------
 # Expose port for Render
 # ---------------------------------------
 EXPOSE 80
 
-CMD php artisan migrate --force && apache2-foreground
+# ---------------------------------------
+# Start Laravel migration + Apache
+# ---------------------------------------
+CMD ["/usr/local/bin/entrypoint.sh"]

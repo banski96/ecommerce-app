@@ -1,5 +1,20 @@
 #!/bin/sh
 
+set -e
+
+echo "===================="
+echo "DATABASE DEBUG"
+echo "===================="
+echo "DB_CONNECTION=$DB_CONNECTION"
+echo "DB_HOST=$DB_HOST"
+echo "DB_PORT=$DB_PORT"
+echo "DB_DATABASE=$DB_DATABASE"
+echo "===================="
+
+# Clear stale caches
+php artisan config:clear || true
+php artisan cache:clear || true
+
 # Run database migrations automatically
 echo "Running migrations..."
 php artisan migrate --force
