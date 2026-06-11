@@ -16,9 +16,9 @@ echo "export APP_KEY=$APP_KEY" >> /etc/apache2/envvars
 echo "export APP_ENV=production" >> /etc/apache2/envvars
 echo "export APP_DEBUG=false" >> /etc/apache2/envvars
 
-# 2. Run migrations now that the environment variables are active
+# 2. Run migrations strictly forcing the pgsql connection inline
 echo "Running migrations against live database..."
-php artisan migrate --force
+DB_CONNECTION=pgsql php artisan migrate --force
 
 # 3. Start the foreground web process cleanly
 echo "Starting web server..."
