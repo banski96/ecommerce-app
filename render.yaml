@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: laravel-ecommerce
+    env: php
+    buildCommand: |
+      npm install
+      npm run build
+
+      # Back-end setup
+      composer install --no-side-effects --no-plugins --no-progress --no-dev --prefer-dist
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
+    startCommand: heroku-php-apache2 public/
+    envVars:
+      - key: PHP_VERSION
+        value: 8.2
