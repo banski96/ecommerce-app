@@ -55,13 +55,8 @@ RUN npm install && npm run build
 RUN chown -R www-data:www-data storage bootstrap/cache
 
 # ---------------------------------------
-# Laravel production optimization
-# ---------------------------------------
-RUN php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
-
-# ---------------------------------------
 # Expose port for Render
 # ---------------------------------------
 EXPOSE 80
+
+CMD php artisan migrate --force && apache2-foreground
