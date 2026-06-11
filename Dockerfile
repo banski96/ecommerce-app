@@ -1,7 +1,7 @@
 FROM php:8.4-apache
 
 # ---------------------------------------
-# System dependencies
+# System dependencies (Added gettext-base)
 # ---------------------------------------
 RUN apt-get update && apt-get install -y \
     git \
@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     nodejs \
     npm \
+    gettext-base \
     && docker-php-ext-install pdo pdo_pgsql gd
 
 # ---------------------------------------
