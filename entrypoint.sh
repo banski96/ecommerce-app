@@ -5,7 +5,7 @@ echo "=========================================="
 echo "BOOTING LARAVEL ON RENDER FREE TIER"
 echo "=========================================="
 
-# Escape the dollar signs (\$ ) so they evaluate dynamically at runtime!
+# 1. Feed Apache its variables so the web browser can read them later
 echo "export DB_CONNECTION=pgsql" >> /etc/apache2/envvars
 echo "export DB_HOST=\$DB_HOST" >> /etc/apache2/envvars
 echo "export DB_PORT=\$DB_PORT" >> /etc/apache2/envvars
@@ -16,10 +16,16 @@ echo "export APP_KEY=\$APP_KEY" >> /etc/apache2/envvars
 echo "export APP_ENV=production" >> /etc/apache2/envvars
 echo "export APP_DEBUG=false" >> /etc/apache2/envvars
 
-# Explicitly pass the live environment variables straight into the migration execution command
+# 2. Run database migrations by explicitly passing Render's live variables inline
 echo "Running migrations against live database..."
+DB_CONNECTION=pgsql \
+DB_HOST="$DB_HOST" \
+DB_PORT="$DB_PORT" \
+DB_DATABASE="$DB_DATABASE" \
+DB_USERNAME="$DB_USERNAME" \
+DB_PASSWORD="$DB_PASSWORD" \
 php artisan migrate --database=pgsql --force
 
-# Start the foreground web process cleanly
+# 3. Start the foreground web process cleanly
 echo "Starting web server..."
 exec apache2-foreground
