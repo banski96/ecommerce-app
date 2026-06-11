@@ -2,33 +2,19 @@
 set -e
 
 echo "=========================================="
-echo "GENERATING NATIVE ENVIRONMENT VIA TEMPLATE"
+echo "BOOTING LARAVEL ON RENDER FREE TIER"
 echo "=========================================="
 
-# Create a template file directly inside the container shell memory
-cat << 'EOF' > /var/www/html/.env.template
-APP_ENV=production
-APP_DEBUG=false
-APP_KEY=$APP_KEY
-DB_CONNECTION=pgsql
-DB_HOST=$DB_HOST
-DB_PORT=$DB_PORT
-DB_DATABASE=$DB_DATABASE
-DB_USERNAME=$DB_USERNAME
-DB_PASSWORD=$DB_PASSWORD
-SESSION_DRIVER=cookie
-CACHE_STORE=file
-EOF
+# Force Laravel to wipe out any empty config caches built during docker compilation
+# This forces the framework to read fresh environment variables directly from Render's dashboard
+echo "Clearing application caches..."
+php artisan config:clear
+php artisan cache:clear
 
-# Use envsubst to cleanly map dashboard values over to the production .env file
-envsubst < /var/www/html/.env.template > /var/www/html/.env
-
-echo "Successfully mapped environmental credentials securely."
-
-# Run database migrations automatically
+# Run database migrations automatically against Supabase
 echo "Running migrations against live database..."
 php artisan migrate --force
 
-# Start the main Apache process
+# Start the main Apache process (keeps container running)
 echo "Starting Apache..."
 exec apache2-foreground
