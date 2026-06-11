@@ -1,30 +1,31 @@
 #!/bin/sh
-
 set -e
 
-echo "===================="
-echo "DATABASE DEBUG"
-echo "===================="
-echo "DB_CONNECTION=$DB_CONNECTION"
-echo "DB_HOST=$DB_HOST"
-echo "DB_PORT=$DB_PORT"
-echo "DB_DATABASE=$DB_DATABASE"
-echo "===================="
+echo "=========================================="
+echo "FORCING LIVE ENVIRONMENT INJECTION"
+echo "=========================================="
 
-# Clear stale caches
-php artisan config:clear || true
-php artisan cache:clear || true
+# Create a clean, production-ready .env file directly inside the container
+cat <<EOF > /var/www/html/.env
+APP_ENV=production
+APP_DEBUG=false
+APP_KEY=${APP_KEY}
+DB_CONNECTION=pgsql
+DB_HOST=${DB_HOST}
+DB_PORT=${DB_PORT}
+DB_DATABASE=${DB_DATABASE}
+DB_USERNAME=${DB_USERNAME}
+DB_PASSWORD=${DB_PASSWORD}
+SESSION_DRIVER=cookie
+CACHE_STORE=file
+EOF
+
+echo "Successfully injected Supabase credentials."
 
 # Run database migrations automatically
 echo "Running migrations..."
 php artisan migrate --force
 
-# Clear and optimize Laravel caches
-echo "Optimizing application..."
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-
-# Start the main Apache process (keeps container running)
+# Start the main Apache process
 echo "Starting Apache..."
 exec apache2-foreground
