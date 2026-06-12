@@ -58,15 +58,8 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 # Copy startup script
 # ---------------------------------------
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# ---------------------------------------
-# Expose port for Render
-# ---------------------------------------
 EXPOSE 80
 
-# ---------------------------------------
-# Start Laravel migration + Apache via shell form
-# ---------------------------------------
 CMD /usr/local/bin/entrypoint.sh
