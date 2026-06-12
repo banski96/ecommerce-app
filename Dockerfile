@@ -58,15 +58,8 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 # Copy startup script
 # ---------------------------------------
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# ---------------------------------------
-# Expose port for Render
-# ---------------------------------------
 EXPOSE 80
 
-# ---------------------------------------
-# Hand off control directly to the script execution layer
-# ---------------------------------------
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD /usr/local/bin/entrypoint.sh
