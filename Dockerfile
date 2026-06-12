@@ -67,6 +67,6 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 EXPOSE 80
 
 # ---------------------------------------
-# Hand off control directly to the script execution layer
+# Start Laravel migration + Apache via shell form
 # ---------------------------------------
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD /usr/local/bin/entrypoint.sh

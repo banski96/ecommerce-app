@@ -5,27 +5,22 @@ echo "=========================================="
 echo "BOOTING LARAVEL PRODUCTION CONTAINER"
 echo "=========================================="
 
-# 1. Inject runtime dashboard variables into Apache's configuration layer (for web traffic)
-echo "export DB_CONNECTION=pgsql" >> /etc/apache2/envvars
-echo "export DB_HOST=$DB_HOST" >> /etc/apache2/envvars
-echo "export DB_PORT=$DB_PORT" >> /etc/apache2/envvars
-echo "export DB_DATABASE=$DB_DATABASE" >> /etc/apache2/envvars
-echo "export DB_USERNAME=$DB_USERNAME" >> /etc/apache2/envvars
-echo "export DB_PASSWORD=$DB_PASSWORD" >> /etc/apache2/envvars
-echo "export APP_KEY=$APP_KEY" >> /etc/apache2/envvars
-echo "export APP_ENV=production" >> /etc/apache2/envvars
-echo "export APP_DEBUG=false" >> /etc/apache2/envvars
+# 1. Write the configuration layer safely using a literal Here-Doc
+# Wrapping EOF in single quotes prevents the shell from evaluating variables early
+cat << 'EOF' >> /etc/apache2/envvars
+export DB_CONNECTION=pgsql
+export DB_HOST=$DB_HOST
+export DB_PORT=$DB_PORT
+export DB_DATABASE=$DB_DATABASE
+export DB_USERNAME=$DB_USERNAME
+export DB_PASSWORD=$DB_PASSWORD
+export APP_KEY=$APP_KEY
+export APP_ENV=production
+export APP_DEBUG=false
+EOF
 
-# 2. Force PHP 8.4 CLI to read the live variables by passing them directly inline
+# 2. Run migrations using the native global environment directly
 echo "Running database migrations..."
-DB_CONNECTION=pgsql \
-DB_HOST="$DB_HOST" \
-DB_PORT="$DB_PORT" \
-DB_DATABASE="$DB_DATABASE" \
-DB_USERNAME="$DB_USERNAME" \
-DB_PASSWORD="$DB_PASSWORD" \
-APP_KEY="$APP_KEY" \
-APP_ENV=production \
 php artisan migrate --force
 
 # 3. Start the foreground web server process cleanly
