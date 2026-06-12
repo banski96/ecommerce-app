@@ -2,13 +2,12 @@
 set -e
 
 echo "=== DATABASE VARIABLES ==="
-echo "DB_HOST=$DB_HOST"
-echo "DB_PORT=$DB_PORT"
-echo "DB_DATABASE=$DB_DATABASE"
-echo "DB_USERNAME=$DB_USERNAME"
+env | grep DB_
 
-php artisan config:clear || true
-
+php artisan optimize:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan config:cache
 php artisan migrate --force
 
 exec apache2-foreground
