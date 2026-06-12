@@ -1,12 +1,7 @@
 #!/bin/sh
 set -e
 
-echo "=========================================="
-echo "BOOTING LARAVEL PRODUCTION CONTAINER"
-echo "=========================================="
-
-# 1. Write the configuration layer safely using a literal Here-Doc
-# Wrapping EOF in single quotes prevents the shell from evaluating variables early
+# 1. Write the environment variables for Apache
 cat << 'EOF' >> /etc/apache2/envvars
 export DB_CONNECTION=pgsql
 export DB_HOST=$DB_HOST
@@ -19,10 +14,14 @@ export APP_ENV=production
 export APP_DEBUG=false
 EOF
 
-# 2. Run migrations using the native global environment directly
-echo "Running database migrations..."
+# 2. Force Postgres variables inline so the shell layer cannot drop them
+DB_CONNECTION=pgsql \
+DB_HOST="$DB_HOST" \
+DB_PORT="$DB_PORT" \
+DB_DATABASE="$DB_DATABASE" \
+DB_USERNAME="$DB_USERNAME" \
+DB_PASSWORD="$DB_PASSWORD" \
 php artisan migrate --force
 
-# 3. Start the foreground web server process cleanly
-echo "Starting Apache web server..."
+# 3. Start Apache
 exec apache2-foreground
