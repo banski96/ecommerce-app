@@ -86,8 +86,21 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
+            // 1. Production will keep using this because DATABASE_URL is set on the server
             'url' => env('DATABASE_URL'),
-            'sslmode' => 'require',
+
+            // 2. Local will fall back to these because DATABASE_URL is null on your desktop
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '5432'),
+            'database' => env('DB_DATABASE', 'laravel'),
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => env('DB_CHARSET', 'utf8'),
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            // 3. Keep production SSL secure, but don't force it locally
+            'sslmode' => env('DB_SSLMODE', 'require'),
         ],
 
         'sqlsrv' => [
