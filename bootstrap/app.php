@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // 1. Trust proxies for Render HTTPS routing
+        $middleware->trustProxies(at: '*');
+        // 2. Register your admin middleware alias
         $middleware->alias([
             'admin' => AdminMiddleware::class,
         ]);
