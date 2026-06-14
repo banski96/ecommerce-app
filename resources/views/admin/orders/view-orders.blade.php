@@ -51,7 +51,7 @@
                                 <div class="d-flex align-items-center">
                                     @foreach($order->items as $item)
                                         @if($loop->iteration <= 3)
-                                            <img src="{{ asset($item->product->product_image) }}"
+                                            <img src="{{ $item->product->product_image }}"
                                                  alt="{{ $item->product->name }}"
                                                  class="rounded border me-1 bg-light"
                                                  style="width: 40px; height: 40px; object-fit: cover;"
@@ -162,7 +162,7 @@
                             <div class="d-flex align-items-center bg-light p-2 rounded border">
                                 @foreach($order->items as $item)
                                     @if($loop->iteration <= 4)
-                                        <img src="{{ asset($item->product->product_image) }}"
+                                        <img src="{{ $item->product->product_image }}"
                                             alt="{{ $item->product->name }}"
                                             class="rounded border me-1 bg-white"
                                             style="width: 35px; height: 35px; object-fit: cover;">

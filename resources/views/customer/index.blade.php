@@ -24,7 +24,7 @@
         <div class="col-6 col-md-4 col-lg-3 mb-4">
             <div class="card product-card h-100 shadow-sm">
 
-                <img src="{{ asset($product->product_image) }}" class="card-img-top">
+                <img src="{{ $product->product_image }}" class="card-img-top">
 
                 <div class="card-body p-2">
                     <h6 class="card-title">{{ $product->product_name }}</</h6>

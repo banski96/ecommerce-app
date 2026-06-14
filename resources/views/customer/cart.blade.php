@@ -28,7 +28,7 @@
 
                             <div class="col-auto">
                                 <div class="p-2 border rounded-3 bg-light d-flex align-items-center justify-content-center" style="width: 90px; height: 90px;">
-                                    <img src="{{ asset($item->product->product_image)}}" class="img-fluid rounded" alt="{{ $item->product->name }}" style="max-height: 100%; object-fit: contain;">
+                                    <img src="{{ $item->product->product_image }}" class="img-fluid rounded" alt="{{ $item->product->name }}" style="max-height: 100%; object-fit: contain;">
                                 </div>
                             </div>
 

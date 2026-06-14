@@ -20,7 +20,7 @@
             <td>{{ $item->product->product_name}}</td>
             <td>
                 @if($item->product->product_image)
-                    <img src="{{ asset($item->product->product_image) }}" alt="{{ $item->product->product_name }}" class="img-fluid" style="max-width:50px;">
+                    <img src="{{ $item->product->product_image }}" alt="{{ $item->product->product_name }}" class="img-fluid" style="max-width:50px;">
                 @else
                     <p>No image available</p>
                 @endif
