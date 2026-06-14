@@ -31,9 +31,12 @@ class ProductController extends Controller
         $validatedData = $request->validated();
 
         if ($request->hasFile('product_image')) {
-            $path = $request->file('product_image')->store('products', 'public');
-            $validatedData['product_image'] = 'storage/' . $path;
+            # Change the file path to match the environment's default disk (local on laptop, s3 on Render)
+            $path = $request->file('product_image')->store('products', config('filesystems.default'));
+            # Generate public url dynamically
+            $validatedData['product_image'] = Storage::url($path);
         }
+
         $product = Product::create($validatedData);
 
         return redirect()
