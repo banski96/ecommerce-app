@@ -14,7 +14,7 @@
             </div>
             @foreach($order->items as $item)
                 <div class="card-body d-flex align-items-center py-3">
-                    <img src="{{ asset($item->product->product_image) }}"
+                    <img src="{{ $item->product->product_image }}"
                         alt="Product Image"
                         class="rounded border me-3 bg-light"
                         style="width: 70px; height: 70px; object-fit: cover; flex-shrink: 0;">
