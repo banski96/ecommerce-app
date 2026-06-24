@@ -31,7 +31,7 @@
                     <p class="text-danger mb-1">${{ $product->price }}</</p>
                     <form action="{{ route('cart.add', $product->product_id) }}" method="POST">
                         @csrf
-                        <button type="submit" class="btn btn-sm add-btn w-100" >Add to Cart</button>
+                        <x-primary-button class="w-full justify-center">Add to cart</x-primary-button>
                     </form>
                 </div>
 
