@@ -70,7 +70,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout.page');
     Route::post('/checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.place-order');
     Route::get('/checkout/success', function () {
-        return 'Payment success (waiting for confirmation)';
+        return 'Payment success (waiting for confirmation)'; # TODO: add redirection to home with message success
     })->name('checkout.success');
     Route::get('/checkout/cancel', function () {
         return 'Payment cancelled';
