@@ -38,7 +38,7 @@
             <td>{{ $product->stock_quantity }}</td>
             <td>{{ $product->category_id }}</td>
             <td>
-                <a href="{{ route('admin.categories.edit', $product) }}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{{ route('admin.product.edit', $product) }}" class="btn btn-warning btn-sm">Edit</a>
                 <form action="{{ route('admin.product.destroy', $product) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
