@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage; // Switched file handling to use Laravel's standard Storage
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 
 class ProductController extends Controller
 {
@@ -58,5 +59,33 @@ class ProductController extends Controller
         return redirect()
         ->route('admin.products')
         ->with('success', 'Product deleted successfully.');
+    }
+
+    public function edit(string $id)
+    {
+        $product = Product::findOrFail($id);
+        $categories = Category::all();
+        if (! $product) {
+            return redirect()->route('admin.products')->with('error', 'Product not found.');
+        } else {
+            return view('admin.products.edit', compact('product', 'categories'));
+        }
+    }
+
+    public function update(UpdateProductRequest $request, string $id)
+    {
+
+        $product = Product::findOrFail($id);
+        $validatedData = $request->validated();
+
+        if ($request->hasFile('product_image')) {
+            # Change the file path to match the environment's default disk (local on laptop, s3 on Render)
+            $path = $request->file('product_image')->store('products', config('filesystems.default'));
+            # Generate public url dynamically
+            $validatedData['product_image'] = Storage::url($path);
+        }
+        $product->update($validatedData);
+
+        return redirect()->route('admin.products')->with('success', 'Product updated successfully.');
     }
 }
