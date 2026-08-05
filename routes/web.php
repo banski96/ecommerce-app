@@ -18,6 +18,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect()->route('login');
 });
+Route::get('/health', function () {  # This is for health endpoint for keeping the site alive
+    return response()->json([        #  to avoid loading unnecessary assets
+        'status' => 'ok',
+        'timestamp' => now()
+    ], 200);
+});
 
 /*
 |--------------------------------------------------------------------------
