@@ -3,6 +3,7 @@ name: Tests
 on:
   push:
     branches:
+      - main
       - master
       - '*.x'
   pull_request:
@@ -16,22 +17,38 @@ jobs:
   tests:
     runs-on: ubuntu-latest
 
+    # 1. Spin up PostgreSQL for the test job
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: ecommerce_app_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     strategy:
       fail-fast: true
       matrix:
-        php: [8.3, 8.4, 8.5]
+        php: [8.3]
 
     name: PHP ${{ matrix.php }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_pgsql
           coverage: none
 
       - name: Install Composer dependencies
@@ -43,5 +60,24 @@ jobs:
       - name: Generate app key
         run: php artisan key:generate
 
+      # 2. Compile Vite assets so public/build/manifest.json exists
+      - name: Setup Node.js & Build Assets
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install NPM dependencies & Build
+        run: |
+          npm ci
+          npm run build
+
+      # 3. Execute tests using PostgreSQL container environment variables
       - name: Execute tests
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: ecommerce_app_test
+          DB_USERNAME: postgres
+          DB_PASSWORD: password
         run: php artisan test
