@@ -80,4 +80,5 @@ jobs:
           DB_DATABASE: ecommerce_app_test
           DB_USERNAME: postgres
           DB_PASSWORD: password
+          DB_SSLMODE: disable
         run: php artisan test
