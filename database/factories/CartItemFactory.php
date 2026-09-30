@@ -2,13 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
+use App\Models\Cart;
+use App\Models\CartItem;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Category>
+ * @extends Factory<CartItem>
  */
-class CategoryFactory extends Factory
+class CartItemFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,8 +20,9 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'category_name' => fake()->words(3, true),
-            'description' => fake()->sentence(6, true),
+            'cart_id' => Cart::factory(),
+            'product_id' => Product::factory(),
+            'quantity' => fake()->numberBetween(1, 5),
         ];
     }
 }

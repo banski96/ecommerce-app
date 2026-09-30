@@ -76,3 +76,7 @@ a.navbar-brand img{
     object-fit: cover;
     object-position: center;
 }
+.cart-item-out-of-stock {
+    background-color: #e9ecef !important;
+    opacity: 0.6;
+}

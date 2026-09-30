@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\Product;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage; // Switched file handling to use Laravel's standard Storage
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Category; // Switched file handling to use Laravel's standard Storage
+use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -32,17 +31,17 @@ class ProductController extends Controller
         $validatedData = $request->validated();
 
         if ($request->hasFile('product_image')) {
-            # Change the file path to match the environment's default disk (local on laptop, s3 on Render)
+            // Change the file path to match the environment's default disk (local on laptop, s3 on Render)
             $path = $request->file('product_image')->store('products', config('filesystems.default'));
-            # Generate public url dynamically
+            // Generate public url dynamically
             $validatedData['product_image'] = Storage::url($path);
         }
 
         $product = Product::create($validatedData);
 
         return redirect()
-        ->route('admin.products')
-        ->with('success', 'Product created successfully.');
+            ->route('admin.products')
+            ->with('success', 'Product created successfully.');
     }
 
     public function destroy(string $id)
@@ -57,8 +56,8 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()
-        ->route('admin.products')
-        ->with('success', 'Product deleted successfully.');
+            ->route('admin.products')
+            ->with('success', 'Product deleted successfully.');
     }
 
     public function edit(string $id)
@@ -79,9 +78,9 @@ class ProductController extends Controller
         $validatedData = $request->validated();
 
         if ($request->hasFile('product_image')) {
-            # Change the file path to match the environment's default disk (local on laptop, s3 on Render)
+            // Change the file path to match the environment's default disk (local on laptop, s3 on Render)
             $path = $request->file('product_image')->store('products', config('filesystems.default'));
-            # Generate public url dynamically
+            // Generate public url dynamically
             $validatedData['product_image'] = Storage::url($path);
         }
         $product->update($validatedData);
