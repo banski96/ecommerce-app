@@ -16,13 +16,26 @@
         {{ session('success') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+
+    @elseif(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+        ></button>
+    </div>
     @endif
 
 <!-- ✅ Product Grid -->
 <div class="row">
     @forelse($products as $product)
         <div class="col-6 col-md-4 col-lg-3 mb-4">
-            <div class="card product-card h-100 shadow-sm">
+            <div class="card product-card h-100 shadow-sm
+                {{ $product->stock_quantity == 0 ? 'cart-item-out-of-stock' : '' }}"
+            >
 
                 <img src="{{ $product->product_image }}" class="card-img-top">
 
@@ -31,7 +44,10 @@
                     <p class="text-danger mb-1">${{ $product->price }}</p>
                     <form action="{{ route('cart.add', $product->product_id) }}" method="POST">
                         @csrf
-                        <x-primary-button class="w-full justify-center">Add to cart</x-primary-button>
+                        <x-primary-button
+                            class="w-full justify-center"
+                            :disabled="$product->stock_quantity <= 0"
+                        >{{ $product->stock_quantity <= 0 ? 'OUT OF STOCK' : 'Add to cart' }} </x-primary-button>
                     </form>
                 </div>
 

@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CheckoutRequest extends FormRequest
+class UpdateQuantityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,8 @@ class CheckoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cart_items' => 'required|integer',
+            'product_id' => ['required', 'integer'],
+            'quantity' => ['required', 'integer', 'min:1'],
         ];
     }
 }

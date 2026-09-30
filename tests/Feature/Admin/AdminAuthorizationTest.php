@@ -31,6 +31,6 @@ class AdminAuthorizationTest extends TestCase
         $response = $this->actingAs($customer)
             ->get('admin/categories');
 
-        $response->assertStatus(403); # The result should be forbidden
+        $response->assertStatus(403); // The result should be forbidden
     }
 }
