@@ -24,6 +24,7 @@ class AdminAuthorizationTest extends TestCase
 
         $response->assertStatus(200);
     }
+
     public function test_customer_can_access_admin_dashboard(): void
     {
         $customer = User::factory()->create();
@@ -31,6 +32,6 @@ class AdminAuthorizationTest extends TestCase
         $response = $this->actingAs($customer)
             ->get('admin/categories');
 
-        $response->assertStatus(403); # The result should be forbidden
+        $response->assertStatus(403); // The result should be forbidden
     }
 }

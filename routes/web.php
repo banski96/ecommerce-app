@@ -18,10 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect()->route('login');
 });
-Route::get('/health', function () {  # This is for health endpoint for keeping the site alive
-    return response()->json([        #  to avoid loading unnecessary assets
+Route::get('/health', function () {  // This is for health endpoint for keeping the site alive
+    return response()->json([        //  to avoid loading unnecessary assets
         'status' => 'ok',
-        'timestamp' => now()
+        'timestamp' => now(),
     ], 200);
 });
 
@@ -72,13 +72,16 @@ Route::middleware(['auth'])
 Route::middleware('auth')->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.view');
     Route::post('/cart/add/{productId}', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::delete('/cart/delete/{productId}', [CartController::class, 'removeCartItem'])->name('cart.delete');
+    Route::patch('/cart/update', [CartController::class, 'updateQuantity'])
+    ->name('cart.update.quantity');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout.page');
     Route::post('/checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.place-order');
     Route::get('/checkout/success', function () {
-        return 'Payment success (waiting for confirmation)'; # TODO: add redirection to home with message success
+        return 'Payment success (waiting for confirmation)'; // TODO: add redirection to home with message success
     })->name('checkout.success');
     Route::get('/checkout/cancel', function () {
         return 'Payment cancelled';
