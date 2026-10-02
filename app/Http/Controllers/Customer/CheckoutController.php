@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Services\CheckoutService;
 use App\Services\StripeService;
 use Illuminate\Http\Request;
+use App\Http\Requests\CheckoutRequest;
 
 class CheckoutController extends Controller
 {
@@ -21,24 +22,31 @@ class CheckoutController extends Controller
         $this->checkoutService = $checkoutService;
     }
 
-    public function checkout(Request $request)
+    public function checkout(CheckoutRequest $request)
     {
         $user = auth()->user();
-
-        $cartItemIds = $request->cart_items;
-        if (! $cartItemIds) {
-            return redirect()->back()->with('error', 'No items selected');
-        }
-
+        $cartItemIds = $request->validated()['cart_items'];
+        // TODO: decide if we put the stock check in this or in place order
         $cart = Cart::with('items.product')
             ->where('user_id', $user->user_id)
             ->first();
-        $items = $cart->items->whereIn('product_id', $cartItemIds);
+        if ( !$cart ){
+            return redirect()
+                ->route('cart.view')
+                ->with('error', 'You dont have existing cart.');
+        }
+        $items = $cart->items->whereIn('cart_item_id', $cartItemIds);
         // calculate total (server-side safe)
+        if ( $items->isEmpty() ){
+            return redirect()
+                ->route('cart.view')
+                ->with('error', 'Cart item does not exist.');
+        }
         $total = $items->sum(function ($item) {
             return $item->quantity * $item->product->price;
         });
-
+        // TODO: this will get the total price but since the item price is dependent to product so if
+        //the price change and we send an invoice the total will not match prices but it is correct.
         return view('customer.checkout', compact('items', 'total', 'cartItemIds'));
     }
 
