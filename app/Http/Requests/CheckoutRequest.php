@@ -23,7 +23,8 @@ class CheckoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cart_items' => 'required|integer',
+            'cart_items' => ['required', 'array', 'min:1'],
+            'cart_items.*' => ['integer'],
         ];
     }
 }
