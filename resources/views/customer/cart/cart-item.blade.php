@@ -31,7 +31,7 @@
                         class="form-check-input item-checkbox {{ $item->product->stock_quantity == 0 ? 'out-of-stock-checkbox' : '' }}"
                         type="checkbox"
                         name="cart_items[]"
-                        value="{{ $item->product->product_id }}"
+                        value="{{ $item->cart_item_id }}"
                         {{ $item->product->stock_quantity == 0 ? 'disabled' : '' }}
                     >
 
