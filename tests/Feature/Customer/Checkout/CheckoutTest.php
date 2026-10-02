@@ -254,4 +254,54 @@ class CheckoutTest extends TestCase
             'Cart item does not exist.'
         );
     }
+
+    public function test_customer_cannot_checkout_with_quantity_greater_than_available_stock(): void
+    {
+        $customer = $this->createCustomer();
+        $product = Product::factory()
+            ->create([
+                'stock_quantity' => 10,
+                'reserved_stock' => 8,
+            ]);
+        $cart = Cart::factory()->create(['user_id' => $customer->user_id,]);
+        $cartItem = CartItem::factory()->create([
+            'cart_item_id' => 1,
+            'cart_id' => $cart->cart_id,
+            'product_id' => $product->product_id,
+            'quantity' => 9,
+        ]);
+        $response = $this->actingAs($customer)
+            ->post(route('checkout.page'),['cart_items' => [$cartItem->cart_item_id]],);
+
+        $response->assertRedirect(route('cart.view'));
+        $response->assertSessionHas(
+            'error',
+            'Cart has greater quantity than available stock.'
+        );
+    }
+
+    public function test_customer_can_checkout_with_quantity_equal_to_available_stock(): void
+    {
+        $customer = $this->createCustomer();
+        $product = Product::factory()
+            ->create([
+                'stock_quantity' => 10,
+                'reserved_stock' => 8,
+            ]);
+        $cart = Cart::factory()->create(['user_id' => $customer->user_id,]);
+        $cartItem = CartItem::factory()->create([
+            'cart_item_id' => 1,
+            'cart_id' => $cart->cart_id,
+            'product_id' => $product->product_id,
+            'quantity' => 2,
+        ]);
+        $response = $this->actingAs($customer)
+            ->post(route('checkout.page'),['cart_items' => [$cartItem->cart_item_id]],);
+
+        $response->assertOk();
+
+        $response->assertViewHas('cartItemIds', [
+            $cartItem->cart_item_id,
+        ]);
+    }
 }

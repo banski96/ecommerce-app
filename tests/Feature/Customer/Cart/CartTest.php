@@ -136,6 +136,52 @@ class CartTest extends TestCase
         );
     }
 
+    public function test_customer_cannot_add_item_when_quantity_reaches_available_stock(): void
+    {
+        $customer = $this->createCustomer();
+        $product = Product::factory()
+            ->create([
+                'stock_quantity' => 2,
+                'reserved_stock' => 1,
+            ]);
+
+        $this->actingAs($customer)
+            ->post(route('cart.add', $product->product_id));
+
+        $response = $this->actingAs($customer)
+            ->post(route('cart.add', $product->product_id));
+
+        $response->assertRedirect(route('customer.home'));
+        $response->assertSessionHas(
+            'error',
+            'You cannot add more than the available stock!'
+        );
+    }
+
+    public function test_customer_cannot_add_item_when_all_stock_is_reserved(): void
+    {
+        $customer = $this->createCustomer();
+
+        $product = Product::factory()
+            ->create([
+                'stock_quantity' => 10,
+                'reserved_stock' => 10,
+            ]);
+
+        $response = $this->actingAs($customer)
+            ->post(route('cart.add', $product->product_id));
+
+        $response->assertRedirect(route('customer.home'));
+        $response->assertSessionHas(
+            'error',
+            'You cannot add more than the available stock!'
+        );
+
+        $this->assertDatabaseMissing('cart_items', [
+            'product_id' => $product->product_id,
+        ]);
+    }
+
     public function test_add_same_product_twice(): void
     {
         $customer = $this->createCustomer();
@@ -373,6 +419,35 @@ class CartTest extends TestCase
             'cart_id' => $cart->cart_id,
             'product_id' => $product->product_id,
             'quantity' => 1,
+        ]);
+    }
+
+    public function test_customer_cannot_update_with_quantity_greater_than_available_stock(): void
+    {
+        $customer = $this->createCustomer();
+        $product = Product::factory()
+            ->create([
+                'stock_quantity' => 10,
+                'reserved_stock' => 9,
+            ]);
+        $cart = Cart::factory()->create(['user_id' => $customer->user_id,]);
+
+        CartItem::factory()->create([
+            'cart_id' => $cart->cart_id,
+            'product_id' => $product->product_id,
+            'quantity' => 2,
+        ]);
+
+        $response = $this->actingAs($customer)
+            ->patchJson(route('cart.update.quantity'), ['product_id' => $product->product_id,'quantity' => 2]);
+
+        $response->assertUnprocessable()
+            ->assertJson([ 'message' => 'You cannot add more than the available stock!', ]);
+
+        $this->assertDatabaseHas('cart_items', [
+            'cart_id' => $cart->cart_id,
+            'product_id' => $product->product_id,
+            'quantity' => 2,
         ]);
     }
 

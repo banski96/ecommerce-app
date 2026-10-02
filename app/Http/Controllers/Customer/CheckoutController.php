@@ -26,7 +26,6 @@ class CheckoutController extends Controller
     {
         $user = auth()->user();
         $cartItemIds = $request->validated()['cart_items'];
-        // TODO: decide if we put the stock check in this or in place order
         $cart = Cart::with('items.product')
             ->where('user_id', $user->user_id)
             ->first();
@@ -36,11 +35,18 @@ class CheckoutController extends Controller
                 ->with('error', 'You dont have existing cart.');
         }
         $items = $cart->items->whereIn('cart_item_id', $cartItemIds);
-        // calculate total (server-side safe)
         if ( $items->isEmpty() ){
             return redirect()
                 ->route('cart.view')
                 ->with('error', 'Cart item does not exist.');
+        }
+        foreach ($items as $item){
+            $availableStock = $item->product->stock_quantity - $item->product->reserved_stock;
+            if ( $item->quantity > $availableStock ){
+                return redirect()
+                    ->route('cart.view')
+                    ->with('error', 'Cart has greater quantity than available stock.');
+            }
         }
         $total = $items->sum(function ($item) {
             return $item->quantity * $item->product->price;

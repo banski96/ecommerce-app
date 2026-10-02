@@ -48,7 +48,9 @@ class CartController extends Controller
             ->where('product_id', $productId)
             ->first();
 
-        if ($cartItem && $cartItem->quantity >= $product->stock_quantity) {
+        $availableStock = $product->stock_quantity - $product->reserved_stock;
+
+        if ($availableStock <= 0 || ($cartItem && $cartItem->quantity >= $availableStock)) {
             return redirect()->route('customer.home')->with('error', 'You cannot add more than the available stock!');
         }
 
@@ -103,7 +105,10 @@ class CartController extends Controller
         if ($product->stock_quantity <= 0) {
             return response()->json(['message' => 'Product is out of stock.'], 422);
         }
-        if ( $validatedQuantity > $product->stock_quantity) {
+
+        $availableStock = $product->stock_quantity - $product->reserved_stock;
+
+        if ( $validatedQuantity > $availableStock) {
             return response()->json(['message' => 'You cannot add more than the available stock!'], 422);
         }
             $cartItem->update([
