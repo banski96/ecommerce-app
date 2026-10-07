@@ -19,6 +19,7 @@ class Order extends Model
         'mobile_number',
         'shipping_address',
         'payment_status',
+        'stripe_session_id',
     ];
 
     // relationships
