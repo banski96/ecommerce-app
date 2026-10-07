@@ -3,12 +3,19 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Services\CheckoutService;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Stripe\Webhook;
 
 class StripeWebhookController extends Controller
 {
+    private CheckoutService $checkoutService;
+
+    public function __construct(CheckoutService $checkoutService)
+    {
+        $this->checkoutService = $checkoutService;
+    }
     public function handle(Request $request)
     {
         \Log::info('Webhook received');
