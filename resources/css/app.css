@@ -80,3 +80,131 @@ a.navbar-brand img{
     background-color: #e9ecef !important;
     opacity: 0.6;
 }
+
+.order-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.25rem;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+.order-product {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.order-product-image {
+    width: 76px;
+    height: 76px;
+    object-fit: contain;
+    flex-shrink: 0;
+    background: #f8f9fa;
+}
+
+.order-product-info {
+    min-width: 0;
+}
+
+.order-pricing {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1.5rem;
+    flex-shrink: 0;
+}
+
+.order-price-column {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.order-subtotal {
+    min-width: 105px;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.order-label {
+    display: block;
+    color: #6c757d;
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+}
+
+.order-total {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #212529;
+}
+
+@media (max-width: 767.98px) {
+    .orders-container {
+        margin-top: 1.5rem !important;
+    }
+
+    .order-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.25rem;
+        padding: 1rem;
+    }
+
+    .order-product-image {
+        width: 68px;
+        height: 68px;
+    }
+
+    .order-product-info h6 {
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .order-product-info p {
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .order-pricing {
+        width: 100%;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+
+    .order-price-column {
+        flex: 1;
+        min-width: 0;
+        white-space: normal;
+    }
+
+    .order-subtotal {
+        flex: 1.3;
+        min-width: 0;
+        white-space: normal;
+    }
+
+    .order-price-value {
+        font-size: 0.95rem;
+        overflow-wrap: anywhere;
+    }
+
+    .order-subtotal .order-price-value {
+        font-size: 1rem;
+    }
+
+    .order-label {
+        font-size: 0.75rem;
+    }
+
+    .order-card-header {
+        gap: 0.75rem;
+        align-items: flex-start !important;
+    }
+
+    .order-total {
+        font-size: 1.4rem;
+    }
+}
